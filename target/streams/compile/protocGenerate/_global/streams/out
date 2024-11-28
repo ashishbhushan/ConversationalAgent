@@ -1,0 +1,4 @@
+[debug] Invalidating cache (input changed)
+[info] Compiling 1 protobuf files to C:\ashish\JetBrains\IdeaProjects\Homework3\target\scala-2.13\src_managed\main\scalapb
+[debug] protoc options:
+[debug] Compiling schema C:\ashish\JetBrains\IdeaProjects\Homework3\src\main\protobuf\llm_service.proto

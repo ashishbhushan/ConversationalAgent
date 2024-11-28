@@ -1,0 +1,7 @@
+[warn] C:\ashish\JetBrains\IdeaProjects\Homework3\src\main\scala\ClientDIR\ConversationApp.scala:22:16: Implicit definition should have explicit type (inferred akka.actor.typed.ActorSystem[Any]) [quickfixable]
+[warn]   implicit val system = ActorSystem(Behaviors.empty, "conversation-system")
+[warn]                ^
+[warn] C:\ashish\JetBrains\IdeaProjects\Homework3\src\main\scala\ClientDIR\ConversationApp.scala:23:16: Implicit definition should have explicit type (inferred scala.concurrent.ExecutionContextExecutor) [quickfixable]
+[warn]   implicit val ec = system.executionContext
+[warn]                ^
+[warn] two warnings found
