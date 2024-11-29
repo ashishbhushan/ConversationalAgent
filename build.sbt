@@ -9,9 +9,9 @@ val typeSafeConfigVersion = "1.4.3"
 val logbackVersion = "1.5.12"
 val slf4jVersion = "2.0.16"
 val awsLambdaVersion = "1.2.3"
-val awsSdkVersion = "2.29.20"
+val awsSdkVersion = "2.29.23"
 val scalapbVersion = "0.11.17"
-val grpcVersion = "1.68.1"  // Added specific gRPC version
+val grpcVersion = "1.68.2"  // Added specific gRPC version
 
 // Add this at the top level
 Compile / PB.targets := Seq(
@@ -49,5 +49,39 @@ lazy val root = (project in file("."))
 
       // Ollama Client
       "io.github.ollama4j" % "ollama4j" % "1.0.89"
-    )
+    ),
+      // Assembly settings
+      assembly / assemblyMergeStrategy := {
+      case PathList("META-INF", xs @ _*) =>
+        xs map {_.toLowerCase} match {
+          case "services" :: xs => MergeStrategy.filterDistinctLines
+          case _ => MergeStrategy.discard
+        }
+      case "reference.conf" => MergeStrategy.concat
+      case "application.conf" => MergeStrategy.concat
+      case PathList("proto", xs @ _*) => MergeStrategy.first
+      case PathList("google", "protobuf", xs @ _*) => MergeStrategy.first
+      case PathList("com", "google", xs @ _*) => MergeStrategy.first
+      case PathList("scalapb", xs @ _*) => MergeStrategy.first
+      case x if x.endsWith("io.netty.versions.properties") => MergeStrategy.first
+      case "module-info.class" => MergeStrategy.discard
+      case x =>
+        val oldStrategy = (assembly / assemblyMergeStrategy).value
+        oldStrategy(x)
+    },
+
+    assembly / assemblyJarName := "homework3-assembly.jar",
+
+    // Exclude signature files from assembly
+    assembly / assemblyExcludedJars := {
+      val cp = (assembly / fullClasspath).value
+      cp filter { f =>
+        f.data.getName.toLowerCase match {
+          case name if name.endsWith(".sf") => true
+          case name if name.endsWith(".dsa") => true
+          case name if name.endsWith(".rsa") => true
+          case _ => false
+        }
+      }
+    }
   )
