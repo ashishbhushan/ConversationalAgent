@@ -1,8 +1,6 @@
 package ServerDIR
 
 import com.typesafe.config.Config
-import io.grpc.ManagedChannel
-import io.grpc.netty.NettyChannelBuilder
 import software.amazon.awssdk.services.lambda.LambdaClient
 import software.amazon.awssdk.services.lambda.model.InvokeRequest
 import software.amazon.awssdk.core.SdkBytes
@@ -10,7 +8,6 @@ import software.amazon.awssdk.regions.Region
 import scala.concurrent.{ExecutionContext, Future}
 import spray.json._
 import DefaultJsonProtocol._
-import java.util.Base64
 import ServerDIR.grpc.llm_service.{ConversationRequest, ConversationResponse, CompletionResult}
 import org.slf4j.LoggerFactory
 
@@ -79,7 +76,7 @@ class LambdaGrpcClient(config: Config)(implicit ec: ExecutionContext) {
                 outputText = result.outputText,
                 completionReason = result.completionReason
               )
-            }.toSeq
+            }
           )
         } else {
           throw new Exception(s"Lambda returned status code ${lambdaResponse.statusCode}")
@@ -88,9 +85,7 @@ class LambdaGrpcClient(config: Config)(implicit ec: ExecutionContext) {
         case e: Exception =>
           logger.error(s"Error processing Lambda response: ${e.getMessage}", e)
           ConversationResponse(
-            inputTextTokenCount = 0,
             results = Seq(CompletionResult(
-              tokenCount = 0,
               outputText = s"Error processing request: ${e.getMessage}",
               completionReason = "ERROR"
             ))

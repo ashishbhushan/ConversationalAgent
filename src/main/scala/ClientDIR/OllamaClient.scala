@@ -3,11 +3,12 @@ package ClientDIR
 import io.github.ollama4j.OllamaAPI
 import io.github.ollama4j.utils.Options
 import org.slf4j.LoggerFactory
+
 import scala.concurrent.{ExecutionContext, Future}
-import java.util.HashMap
 import com.typesafe.config.ConfigFactory
-import scala.concurrent.duration._
-import scala.util.{Try, Success, Failure}
+
+import java.util
+import scala.util.{Failure, Success, Try}
 
 class OllamaClient()(implicit ec: ExecutionContext) {
   private val logger = LoggerFactory.getLogger(getClass)
@@ -19,33 +20,25 @@ class OllamaClient()(implicit ec: ExecutionContext) {
     ollamaAPI
   }
 
-  private def configureOptions(): HashMap[String, Object] = {
-    val options = new HashMap[String, Object]()
-
+  private def configureOptions(): util.HashMap[String, Object] = {
+    val options = new util.HashMap[String, Object]()
     // Convert String to Float for temperature
-    options.put("temperature",
-      Float.box(config.getString("ollama.temperature").toFloat))
-
+    options.put("temperature", Float.box(config.getString("ollama.temperature").toFloat))
     // Convert String to Integer for num_predict
-    options.put("num_predict",
-      Integer.valueOf(config.getString("ollama.num-predict")))
-
+    options.put("num_predict", Integer.valueOf(config.getString("ollama.num-predict")))
     // Convert String to Integer for timeout
-    options.put("timeout",
-      Integer.valueOf(config.getString("ollama.timeout")))
-
+    options.put("timeout", Integer.valueOf(config.getString("ollama.timeout")))
     options
   }
 
   private def cleanResponse(response: String): String = {
     response
-      .replaceAll("(?i)certainly!?\\s*", "")
-      .replaceAll("(?i)here'?s?\\s+(?:what|how)\\s+", "")
-      .replaceAll("(?i)let'?s?\\s+(?:see|explore)\\s*", "")
+      // Remove only very formal/repetitive prefixes
+      .replaceAll("(?i)^(certainly|indeed|basically|in essence),?\\s*", "")
+      .replaceAll("(?i)^let me (?:explain|clarify|elaborate)[,:]?\\s*", "")
+      // Keep natural expressions but remove redundant ones
       .replaceAll("(?i)based on (?:your|the) (?:statement|response|question)[,:]?\\s*", "")
-      .replaceAll("(?i)interesting(?:ly)?[,!]?\\s*", "")
-      .replaceAll("(?i)ah,?\\s+(?:yes|i see)!?\\s*", "") // Added common Ollama prefix
-      .replaceAll("(?i)well,?\\s*", "") // Added common prefix
+      // Clean up multiple spaces
       .replaceAll("\\s+", " ")
       .trim match {
       case s if s.isEmpty => "Please continue the discussion."
@@ -95,6 +88,7 @@ class OllamaClient()(implicit ec: ExecutionContext) {
 
   def generate(input: String): Future[String] = {
     if (input.isEmpty) {
+      logger.warn("Empty input received")
       Future.successful("Please provide more context.")
     } else {
       logger.info(s"Sending request to Ollama with input length: ${input.length}")

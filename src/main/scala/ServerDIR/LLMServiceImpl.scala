@@ -1,13 +1,11 @@
 package ServerDIR
 
-import scala.concurrent.{ExecutionContext, Future}
-import ServerDIR.grpc.llm_service.LLMServiceGrpc
-import ServerDIR.grpc.llm_service.{ConversationRequest, ConversationResponse}
-import ClientDIR.OllamaClient
+import ServerDIR.grpc.llm_service.{ConversationRequest, ConversationResponse, LLMServiceGrpc}
 import org.slf4j.LoggerFactory
 
-class LLMServiceImpl(ollamaClient: OllamaClient, lambdaGrpcClient: LambdaGrpcClient)
-                    (implicit ec: ExecutionContext)
+import scala.concurrent.Future
+
+class LLMServiceImpl(lambdaGrpcClient: LambdaGrpcClient)
   extends LLMServiceGrpc.LLMService {
 
   private val logger = LoggerFactory.getLogger(getClass)

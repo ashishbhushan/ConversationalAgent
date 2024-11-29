@@ -1,14 +1,14 @@
 package ClientDIR
 
-import akka.actor.typed.ActorSystem
-import akka.actor.typed.scaladsl.Behaviors
 import scala.concurrent.{ExecutionContext, Future}
 import org.slf4j.LoggerFactory
+
 import scala.collection.mutable.ArrayBuffer
-import ServerDIR.grpc.llm_service.{ConversationRequest, ConversationResponse}
+import ServerDIR.grpc.llm_service.ConversationRequest
 import io.grpc.ManagedChannel
 import io.grpc.netty.shaded.io.grpc.netty.NettyChannelBuilder
 import ServerDIR.grpc.llm_service.LLMServiceGrpc
+import com.typesafe.config.ConfigFactory
 
 case class ConversationTurn(
                              cycleNumber: Int,
@@ -20,6 +20,7 @@ case class ConversationTurn(
 
 class ConversationalClient(grpcHost: String, grpcPort: Int)(implicit ec: ExecutionContext) {
   private val logger = LoggerFactory.getLogger(getClass)
+  private val config = ConfigFactory.load()
 
   private val channel: ManagedChannel = NettyChannelBuilder
     .forAddress(grpcHost, grpcPort)
@@ -40,27 +41,31 @@ class ConversationalClient(grpcHost: String, grpcPort: Int)(implicit ec: Executi
     val turns = ArrayBuffer[ConversationTurn]()
     var currentPrompt = initialPrompt
     var cycle = 1
+    val maxCycles = config.getInt("llm.max-cycles")
 
     def createNextPrompt(response: String, isOllama: Boolean): String = {
       val cleanedResponse = cleanText(response)
       if (isOllama) {
-        s"""Do you have any comments on "${cleanedResponse}"?"""
+        s"""Do you have any comments on "$cleanedResponse"?"""
       } else {
-        s"""How can you respond to "${cleanedResponse}"?"""
+        s"""How can you respond to "$cleanedResponse"?"""
       }
     }
 
     def processTurn(): Future[Option[ConversationTurn]] = {
-      if (cycle > 5) {
+      if (cycle > maxCycles) {
+        logger.info(s"Reached maximum cycles ($maxCycles), ending conversation")
         Future.successful(None)
       } else {
         val request = ConversationRequest(
           prompt = currentPrompt,
-          modelId = "amazon.titan-text-lite-v1",
-          maxTokenCount = 150,
-          temperature = 0.5f,
-          topP = 1.0f
+          modelId = config.getString("llm.model-id"),
+          maxTokenCount = config.getInt("llm.max-token-count"),
+          temperature = config.getString("llm.temperature").toFloat,
+          topP = config.getString("llm.top-p").toFloat
         )
+
+        logger.info(s"Processing turn $cycle with prompt: $currentPrompt")
 
         for {
           bedrockResponse <- stub.streamConversation(request)
