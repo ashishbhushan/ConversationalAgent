@@ -18,7 +18,17 @@ import scala.util.{Failure, Success}
 
 object MainApp extends App {
   private val logger = LoggerFactory.getLogger(getClass)
+
+  // Get server host from environment variable or system property, fallback to config
+  private val serverHost = sys.env.getOrElse("SERVER_HOST",
+    sys.props.getOrElse("SERVER_HOST",
+      ConfigFactory.load().getString("server.host")
+    )
+  )
+
   private val config = ConfigFactory.load()
+
+  logger.info(s"Starting server on host: $serverHost")
 
   // Message types for idle management
   private sealed trait IdleMessage
@@ -106,7 +116,6 @@ object MainApp extends App {
     logger.info("Server shutdown complete")
   }
 
-  // Rest of the code remains the same...
   private val route: Route = {
     pathPrefix("chat") {
       post {
@@ -163,7 +172,7 @@ object MainApp extends App {
 
   private val httpBinding = Http()
     .newServerAt(
-      config.getString("server.host"),
+      serverHost,  // Using the resolved server host
       config.getInt("server.port")
     )
     .bind(route)

@@ -38,8 +38,8 @@ class ConversationApp(implicit ec: ExecutionContext) {
       config.getInt("grpc.port")
     )
 
-    println(s"\n👤 Starting new conversation with prompt: $initialPrompt")
-    println(s"📝 Recording to: $filename")
+    println(s"\nStarting new conversation with prompt: $initialPrompt")
+    println(s"Recording to: $filename")
 
     writeToFile("=== AI Conversation Log ===")
     writeToFile(s"Timestamp: ${LocalDateTime.now}")
