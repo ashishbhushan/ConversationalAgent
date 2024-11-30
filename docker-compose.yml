@@ -1,0 +1,53 @@
+services:
+  llm-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8081"
+      - "9091:9091"
+    environment:
+      - SERVER_HOST=0.0.0.0
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_REGION=${AWS_REGION}
+      - DOCKER_ENV=true
+      - OLLAMA_HOST=http://ollama:11434
+    deploy:
+      resources:
+        limits:
+          memory: 4G
+    networks:
+      - llm-network
+    depends_on:
+      - ollama
+    volumes:
+      - ./conversations:/conversations  # Mount conversations directory
+
+  ollama:
+    image: ollama/ollama:latest
+    ports:
+      - "11434:11434"
+    deploy:
+      resources:
+        limits:
+          memory: 12G
+        reservations:
+          memory: 8G
+    volumes:
+      - ollama_data:/root/.ollama
+    networks:
+      - llm-network
+    healthcheck:
+      test: curl -f http://localhost:11434/api/tags || exit 1
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    command: ["serve"]
+
+volumes:
+  ollama_data:
+
+networks:
+  llm-network:
+    driver: bridge

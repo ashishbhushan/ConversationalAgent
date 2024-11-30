@@ -26,8 +26,6 @@ class OllamaClient()(implicit ec: ExecutionContext) {
     options.put("temperature", Float.box(config.getString("ollama.temperature").toFloat))
     // Convert String to Integer for num_predict
     options.put("num_predict", Integer.valueOf(config.getString("ollama.num-predict")))
-    // Convert String to Integer for timeout
-    options.put("timeout", Integer.valueOf(config.getString("ollama.timeout")))
     options
   }
 

@@ -11,7 +11,13 @@ class ConversationApp(implicit ec: ExecutionContext) {
   private val logger = LoggerFactory.getLogger(getClass)
   private val config = ConfigFactory.load()
 
-  private val conversationsDir = new File("conversations")
+  // Check if running in Docker
+  private val isDocker = Option(System.getenv("DOCKER_ENV")).exists(_.toBoolean)
+
+  // Use appropriate path based on environment
+  private val conversationsDir = new File(
+    if (isDocker) "/conversations" else "conversations"
+  )
   if (!conversationsDir.exists()) {
     conversationsDir.mkdir()
   }
@@ -19,7 +25,7 @@ class ConversationApp(implicit ec: ExecutionContext) {
   // Move file creation inside the conversation handling
   private def createNewConversation(): (PrintWriter, String) = {
     val timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"))
-    val filename = s"conversations/conversation_$timestamp.txt"
+    val filename = s"$conversationsDir/conversation_$timestamp.txt"
     (new PrintWriter(new File(filename)), filename)
   }
 
@@ -37,9 +43,6 @@ class ConversationApp(implicit ec: ExecutionContext) {
       config.getString("server.host"),
       config.getInt("grpc.port")
     )
-
-    println(s"\nStarting new conversation with prompt: $initialPrompt")
-    println(s"Recording to: $filename")
 
     writeToFile("=== AI Conversation Log ===")
     writeToFile(s"Timestamp: ${LocalDateTime.now}")
@@ -71,7 +74,7 @@ class ConversationApp(implicit ec: ExecutionContext) {
       .recoverWith { case e: Exception =>
         val errorMsg = s"Error in conversation: ${e.getMessage}"
         logger.error(errorMsg, e)
-        writeToFile(s"\n❌ $errorMsg")
+        writeToFile(s"\n $errorMsg")
         writeToFile("\n=== Conversation End with Error ===")
         currentWriter.close()
         client.shutdown()
