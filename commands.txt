@@ -1,0 +1,56 @@
+local
+
+curl -X POST http://localhost:8081/chat -H "Content-Type: application/json" -d "{\"prompt\": \"what is the solar system?\"}"
+curl -X POST http://localhost:8081/chat -H "Content-Type: application/json" -d "{\"prompt\": \"how do cats express love?\"}"
+
+aws ec2 
+
+curl -X POST http://localhost:8081/chat -H "Content-Type: application/json" -d "{\"prompt\": \"what is a solar system?\"}"
+curl -X POST http://54.88.239.180:8081/chat -H "Content-Type: application/json" -d "{\"prompt\": \"how do cats express love?\"}"
+
+
+
+docker local
+
+**change ollama host from localhost to ollama in config file**
+
+docker-compose down
+docker-compose up --build
+
+curl -X POST http://localhost:8081/chat -H "Content-Type: application/json" -d "{\"prompt\": \"what is the solar system?\"}"
+curl -X POST http://localhost:8081/chat -H "Content-Type: application/json" -d "{\"prompt\": \"how do cats express love?\"}"
+
+push to ecr
+
+aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 982081079709.dkr.ecr.us-east-1.amazonaws.com
+docker tag homework3-llm-server:latest 982081079709.dkr.ecr.us-east-1.amazonaws.com/homework3-llm-server:latest
+docker push 982081079709.dkr.ecr.us-east-1.amazonaws.com/homework3-llm-server:latest
+
+
+
+on aws cli
+
+docker ps
+docker stop 3d27d2be0f9b
+docker rm 3d27d2be0f9b
+aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 982081079709.dkr.ecr.us-east-1.amazonaws.com
+docker pull 982081079709.dkr.ecr.us-east-1.amazonaws.com/homework3-llm-server:latest
+
+start docker on aws
+
+[ec2-user@ip-172-31-81-127 ~]$ sudo systemctl start docker
+[ec2-user@ip-172-31-81-127 ~]$ sudo systemctl enable docker
+[ec2-user@ip-172-31-81-127 ~]$ sudo usermod -aG docker ec2-user
+[ec2-user@ip-172-31-81-127 ~]$ sudo chmod 666 /var/run/docker.sock
+[ec2-user@ip-172-31-81-127 ~]$ sudo systemctl status docker
+
+run docker run build
+docker run -d -p 8081:8081 -p 9091:9091 --network llm-network 982081079709.dkr.ecr.us-east-1.amazonaws.com/homework3-llm-server:latest
+docker ps
+
+curl -X POST http://localhost:8081/chat -H "Content-Type: application/json" -d "{\"prompt\": \"what is a solar system?\"}"
+curl -X POST http://54.88.239.180:8081/chat -H "Content-Type: application/json" -d "{\"prompt\": \"how do cats express love?\"}"
+
+view conversations on docker
+
+docker exec -it 801bf7cd67ca /bin/bash
