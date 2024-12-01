@@ -8,6 +8,10 @@
 
 Homework Assignment 3 for CS441 focuses on creating a cloud-deployed LLM-based generative system. This project implements a microservice architecture that enables clients to interact with an LLM through HTTP requests, with responses generated using AWS Bedrock or a custom-trained LLM. The implementation includes both RESTful and gRPC interfaces, AWS Lambda integration, and for graduate students, an automated conversational client using Ollama.
 
+## Video Demonstration
+
+(https://youtu.be/7QcjBjiFk0Q)
+
 ### Environment
 ```
 OS: Windows 11
@@ -73,7 +77,7 @@ docker-compose up -d --build
 2. **Pull Llama2 Model in Ollama:**
 ```bash
 # Execute into Ollama container
-docker exec -it homework3-ollama-1 ollama pull llama2
+docker exec -it homework3-ollama-1 ollama pull tinyllama
 ```
 
 3. **Verify Containers:**
@@ -106,6 +110,7 @@ docker-compose restart
 docker-compose down
 
 # Stop and remove containers + volumes
+// this will remove downloaded ollama models as well.
 docker-compose down -v
 ```
 
@@ -129,8 +134,6 @@ docker volume inspect homework3_ollama
 # Clean up volume
 docker volume rm homework3_ollama
 ```
-
-[Rest of the README remains the same]
 
 ## Troubleshooting Docker Deployment
 
@@ -274,10 +277,6 @@ Each log contains:
 - Initial query
 - Conversation turns (Bedrock and Ollama responses)
 - Metrics and statistics
-
-## Video Demonstration
-
-[Link to deployment and demo video]
 
 ## Testing
 
