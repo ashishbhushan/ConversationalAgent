@@ -182,17 +182,21 @@ sbt clean compile
 sbt run
 ```
 
-3) **Using curl/Postman**
+3) **Using curl**
 
-   Use curl/Postman to send an initial request to bedrock for processing, something like below command can be used.
+   Use curl to send an initial request to bedrock for processing, something like below command can be used.
 
     ```bash
     curl -X POST http://localhost:8081/chat -H "Content-Type: application/json" -d "{\"prompt\": \"what is the solar system?\"}"
+    ```
+    
     If you're running to AWS EC2 and want to run it via local terminal on your machine, you can also you below command
+
+   ```bash
     curl -X POST http://<Public IPv4 address in EC2 Instance>:8081/chat -H "Content-Type: application/json" -d "{\"prompt\": \"how do cats express love?\"}"
     ```
 
-4) **Docker Deployment**
+5) **Docker Deployment**
 
 First, set up Ollama:
 ```bash
