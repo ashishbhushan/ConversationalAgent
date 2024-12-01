@@ -42,20 +42,8 @@ Before running the project, ensure you have:
 4. **curl/Postman**: For testing the REST API
 5. **AWS CLI**: Configured with appropriate credentials
 
-## Running the Project
 
-1) **Clone this repository**
-```bash
-git clone https://github.com/ashishbhushan/ConversationalAgent.git
-```
-
-2) **Local Development Setup**
-```bash
-cd CS441HW3
-sbt clean compile
-sbt run
-```
-3) ## Docker Setup and Deployment
+## Docker Setup and Deployment
 
 The project uses two containers:
 1. Ollama container for local model hosting
@@ -210,8 +198,8 @@ Common issues and solutions:
    ```
 
 3. **Memory Issues:**
-    - Increase Docker desktop resources
-    - Monitor container resources:
+   - Increase Docker desktop resources
+   - Monitor container resources:
    ```bash
    docker stats
    ```
@@ -222,6 +210,25 @@ Common issues and solutions:
    docker-compose down -v
    docker-compose up --build
    ```
+
+
+
+## Running the Project
+
+1) **Clone this repository**
+```bash
+git clone https://github.com/ashishbhushan/ConversationalAgent.git
+```
+
+2) **Local Development Setup**
+```bash
+cd CS441HW3
+sbt clean compile
+sbt run
+```
+
+3)  kk
+
 
 4) **Docker Deployment**
 
