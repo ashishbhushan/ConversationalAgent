@@ -184,7 +184,7 @@ sbt run
 
 3) **Using curl**
 
-   Use curl to send an initial request to bedrock for processing, something like below command can be used.
+Use curl to send an initial request to bedrock for processing, something like below command can be used.
 
 ```bash
 curl -X POST http://localhost:8081/chat -H "Content-Type: application/json" -d "{\"prompt\": \"what is the solar system?\"}"
