@@ -52,59 +52,12 @@ The project uses two containers:
 ### 1. Docker Compose Setup
 
 Create a `docker-compose.yml`:
-```yaml
-version: '3.8'
 
-services:
-  ollama:
-    image: ollama/ollama
-    volumes:
-      - ollama:/root/.ollama
-    ports:
-      - "11434:11434"
-    networks:
-      - llm-network
-
-  llm-server:
-    build: .
-    ports:
-      - "8081:8081"
-      - "9091:9091"
-    environment:
-      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
-      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
-      - AWS_REGION=us-east-1
-      - OLLAMA_HOST=http://ollama:11434
-    depends_on:
-      - ollama
-    networks:
-      - llm-network
-
-volumes:
-  ollama:
-
-networks:
-  llm-network:
-    driver: bridge
-```
+Attached in the repository
 
 ### 2. Dockerfile for LLM Server:
-```dockerfile
-# Build stage
-FROM sbtscala/scala-sbt:eclipse-temurin-jammy-17.0.9_9_1.9.7_2.13.12 AS builder
-WORKDIR /app
-COPY . /app/
-RUN sbt clean assembly
 
-# Run stage
-FROM eclipse-temurin:17-jre-jammy
-WORKDIR /app
-COPY --from=builder /app/target/scala-2.13/homework3-assembly.jar /app/homework3-assembly.jar
-COPY --from=builder /app/src/main/resources/application.conf /app/application.conf
-RUN mkdir -p /app/conversations
-
-CMD ["java", "-jar", "homework3-assembly.jar"]
-```
+Attached in the repository
 
 ### 3. Deployment Steps
 
