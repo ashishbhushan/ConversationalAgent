@@ -44,6 +44,7 @@ Before running the project, ensure you have:
 4. **curl/Postman**: For testing the REST API
 5. **AWS CLI**: Configured with appropriate credentials
 
+**I have also attached the commands I used in the video for running it on all instances as a text file in the repository.**
 
 ## Docker Setup and Deployment
 
@@ -72,7 +73,7 @@ docker-compose up --build
 docker-compose up -d --build
 ```
 
-2. **Pull Llama2 Model in Ollama:**
+2. **Pull tinyllama Model in Ollama:**
 ```bash
 # Execute into Ollama container
 docker exec -it homework3-ollama-1 ollama pull tinyllama
@@ -118,6 +119,7 @@ The containers communicate through the `llm-network` bridge network:
 - Ollama is accessible at `http://ollama:11434` within the network
 - LLM server can reach Ollama using this internal DNS name
 - Both containers share the same network namespace
+- Make sure you update resource.conf (in src/main/resources) to keep host as ollama while running on docker (otherwise it should be localhost) (port will remain same in both the cases)
 
 ### 6. Volume Management
 
@@ -166,7 +168,6 @@ Common issues and solutions:
    ```
 
 
-
 ## Running the Project
 
 1) **Clone this repository**
@@ -181,8 +182,15 @@ sbt clean compile
 sbt run
 ```
 
-3)  kk
+3) **Using curl/Postman**
 
+   Use curl/Postman to send an initial request to bedrock for processing, something like below command can be used.
+
+    ```bash
+    curl -X POST http://localhost:8081/chat -H "Content-Type: application/json" -d "{\"prompt\": \"what is the solar system?\"}"
+    If you're running to AWS EC2 and want to run it via local terminal on your machine, you can also you below command
+    curl -X POST http://<Public IPv4 address in EC2 Instance>:8081/chat -H "Content-Type: application/json" -d "{\"prompt\": \"how do cats express love?\"}"
+    ```
 
 4) **Docker Deployment**
 
@@ -232,26 +240,7 @@ Key components of the implementation:
 
 The application uses Typesafe Config for configuration management. Key configurations in `application.conf`:
 
-```hocon
-server {
-    host = "localhost"
-    port = 8081
-}
-
-grpc {
-    port = 9091
-}
-
-aws {
-    region = "us-east-1"
-    lambda-function = "LLMQueryFunction"
-}
-
-ollama {
-    host = "http://localhost:11434"
-    model = "tinyllama"
-}
-```
+Attached in the repository.
 
 ## AWS Deployment
 
