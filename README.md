@@ -46,6 +46,60 @@ Before running the project, ensure you have:
 
 **I have also attached the commands I used in the video for running it on all instances as a text file in the repository.**
 
+## Installing Ollama
+
+### Local Installation (Windows)
+
+Using Windows Subsystem for Linux (WSL):
+
+```bash
+# Install WSL if not already installed
+wsl --install
+
+# Update package list
+sudo apt update
+
+# Install Ollama
+curl https://ollama.ai/install.sh | sh
+
+# Start Ollama service
+ollama serve
+
+# Pull the tinyllama model
+ollama pull tinyllama
+```
+
+## Environment Setup
+### AWS and Environment Credentials
+
+I have removed all my personal credentials from the project for security reasons. Before running the project, create a .env file in the root directory with your own credentials:
+
+```bash
+# .env file
+AWS_ACCESS_KEY_ID=your_access_key_here
+AWS_SECRET_ACCESS_KEY=your_secret_key_here
+AWS_REGION=your_region_here
+```
+
+Make sure to:
+
+1. Never commit your .env file to version control
+2. Keep your AWS credentials secure
+3. Use appropriate IAM roles and permissions
+4. Configure your AWS credentials either through:
+   1..env file (for local development)
+   2. AWS EC2 Instance Profile (for EC2 deployment)
+   3. Environment variables in your Docker configuration
+
+
+
+Required AWS permissions:
+
+Lambda full access
+Bedrock full access
+API Gateway access
+ECR access (for Docker deployment)
+
 ## Docker Setup and Deployment
 
 The project uses two containers:
