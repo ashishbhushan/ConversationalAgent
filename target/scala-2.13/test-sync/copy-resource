@@ -1,1 +1,1 @@
-[[{},{}],{}]
+[[{"${BASE}/src/test/resources/application.conf":["${BASE}/target/scala-2.13/test-classes/application.conf"]},{"${BASE}/target/scala-2.13/test-classes/application.conf":["${BASE}/src/test/resources/application.conf"]}],{"${BASE}/src/test/resources/application.conf":{"file":"file:///C:/ashish/JetBrains/IdeaProjects/Homework3/src/test/resources/application.conf","lastModified":1733023912213}}]

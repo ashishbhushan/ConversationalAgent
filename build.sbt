@@ -48,7 +48,15 @@ lazy val root = (project in file("."))
       "org.slf4j" % "slf4j-api" % slf4jVersion,
 
       // Ollama Client
-      "io.github.ollama4j" % "ollama4j" % "1.0.89"
+      "io.github.ollama4j" % "ollama4j" % "1.0.89",
+
+      // Scala Test and Scala Mock
+      "org.scalatest" %% "scalatest" % "3.2.19" % Test,
+      "org.scalatestplus" %% "scalacheck-1-15" % "3.2.11.0" % Test,
+      "org.mockito" % "mockito-core" % "5.14.2" % Test,
+      "com.typesafe.akka" %% "akka-http-testkit" % akkaHttpVersion % Test,
+      "com.typesafe.akka" %% "akka-stream-testkit" % akkaVersion % Test,
+      "org.scalatestplus" %% "mockito-4-11" % "3.2.18.0" % Test
     ),
       // Assembly settings
       assembly / assemblyMergeStrategy := {
@@ -85,3 +93,8 @@ lazy val root = (project in file("."))
       }
     }
   )
+
+// Enable using ScalaCheck with ScalaTest
+testFrameworks += new TestFramework("org.scalatest.tools.Framework")
+// Set parallel execution for tests to false using the slash syntax
+Test / parallelExecution := false

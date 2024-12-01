@@ -94,7 +94,7 @@ class LambdaGrpcClient(config: Config)(implicit ec: ExecutionContext) {
     }
   }
 
-  private val lambdaClient = LambdaClient.builder()
+  protected val lambdaClient: LambdaClient = LambdaClient.builder()
     .region(Region.of(config.getString("aws.region")))
     .build()
 

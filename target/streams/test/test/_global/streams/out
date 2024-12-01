@@ -1,0 +1,43 @@
+[debug] Running TaskDef(ShutdownWithoutStartingTest, org.scalatest.tools.Framework$$anon$1@5f156221, false, [SuiteSelector])
+[info] ShutdownWithoutStartingTest:
+[info] shutdown
+[info] - should handle being called when the server is not running
+[debug] Running TaskDef(ConversationSpec, org.scalatest.tools.Framework$$anon$1@5f156221, false, [SuiteSelector])
+[info] ConversationSpec:
+[info] ConversationApp
+[info] - should handle conversation with mocked responses
+[info] - should handle empty responses
+[debug] Running TaskDef(LambdaGrpcClientSpec, org.scalatest.tools.Framework$$anon$1@5f156221, false, [SuiteSelector])
+[info] LambdaGrpcClientSpec:
+[info] LambdaGrpcClient
+[info] - should handle conversation requests and return valid responses
+[info] - should handle error cases gracefully
+[debug] Running TaskDef(LLMServerSpec, org.scalatest.tools.Framework$$anon$1@5f156221, false, [SuiteSelector])
+[info] LLMServerSpec:
+[info] LLMServer
+[info] - should start and stop correctly
+[info] - should handle multiple start-stop cycles
+[debug] Running TaskDef(OllamaClientSpec, org.scalatest.tools.Framework$$anon$1@5f156221, false, [SuiteSelector])
+[info] OllamaClientSpec:
+[info] OllamaClient
+[info] - should handle valid input
+[info] - should handle empty input
+[info] ScalaTest
+[info] Run completed in 2 seconds, 892 milliseconds.
+[info] Total number of tests run: 9
+[info] Suites: completed 5, aborted 0
+[info] Tests: succeeded 9, failed 0, canceled 0, ignored 0, pending 0
+[info] All tests passed.
+[info] ScalaTest
+[info] Run completed in 2 seconds, 888 milliseconds.
+[info] Total number of tests run: 0
+[info] Suites: completed 0, aborted 0
+[info] Tests: succeeded 0, failed 0, canceled 0, ignored 0, pending 0
+[info] No tests were executed.
+[info] Passed: Total 9, Failed 0, Errors 0, Passed 9
+[debug] Passed tests:
+[debug] 	ShutdownWithoutStartingTest
+[debug] 	ConversationSpec
+[debug] 	LambdaGrpcClientSpec
+[debug] 	LLMServerSpec
+[debug] 	OllamaClientSpec

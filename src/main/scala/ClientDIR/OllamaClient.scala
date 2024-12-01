@@ -45,7 +45,7 @@ class OllamaClient()(implicit ec: ExecutionContext) {
     }
   }
 
-  private def makeRequest(input: String, attempt: Int = 0, maxRetries: Int = 3): Future[String] = {
+  protected def makeRequest(input: String, attempt: Int = 0, maxRetries: Int = 3): Future[String] = {
     if (attempt >= maxRetries) {
       logger.error(s"All $maxRetries attempts failed")
       Future.successful("I apologize, but I'm having trouble processing your request. Please try again.")

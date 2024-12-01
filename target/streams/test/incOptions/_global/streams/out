@@ -1,2 +1,19 @@
 [debug] Created transactional ClassFileManager with tempDir = C:\ashish\JetBrains\IdeaProjects\Homework3\target\scala-2.13\test-classes.bak
+[debug] About to delete class files:
+[debug] 	ConversationSpec$TestConversationApp.class
+[debug] 	ConversationSpec.class
+[debug] 	ConversationSpec$$anon$1.class
+[debug] We backup class files:
+[debug] 	ConversationSpec$TestConversationApp.class
+[debug] 	ConversationSpec.class
+[debug] 	ConversationSpec$$anon$1.class
+[debug] Registering generated classes:
+[debug] 	OllamaClientSpec$TestOllamaClient.class
+[debug] 	LambdaGrpcClientSpec.class
+[debug] 	OllamaClientSpec.class
+[debug] 	ShutdownWithoutStartingTest.class
+[debug] 	LLMServerSpec.class
+[debug] 	ConversationSpec$TestConversationApp.class
+[debug] 	ConversationSpec.class
+[debug] 	ConversationSpec$$anon$1.class
 [debug] Removing the temporary directory used for backing up class files: C:\ashish\JetBrains\IdeaProjects\Homework3\target\scala-2.13\test-classes.bak
