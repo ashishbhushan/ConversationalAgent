@@ -8,9 +8,7 @@
 
 Homework Assignment 3 for CS441 focuses on creating a cloud-deployed LLM-based generative system. This project implements a microservice architecture that enables clients to interact with an LLM through HTTP requests, with responses generated using AWS Bedrock or a custom-trained LLM. The implementation includes both RESTful and gRPC interfaces, AWS Lambda integration, and for graduate students, an automated conversational client using Ollama.
 
-## Video Demonstration
-
-(https://youtu.be/7QcjBjiFk0Q)
+## Video Demonstration - https://youtu.be/7QcjBjiFk0Q
 
 ### Environment
 ```
