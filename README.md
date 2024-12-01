@@ -87,18 +87,19 @@ Make sure to:
 2. Keep your AWS credentials secure
 3. Use appropriate IAM roles and permissions
 4. Configure your AWS credentials either through:
+
    1..env file (for local development)
+   
    2. AWS EC2 Instance Profile (for EC2 deployment)
+   
    3. Environment variables in your Docker configuration
-
-
 
 Required AWS permissions:
 
-Lambda full access
-Bedrock full access
-API Gateway access
-ECR access (for Docker deployment)
+   Lambda full access
+   Bedrock full access
+   API Gateway access
+   ECR access (for Docker deployment)
 
 ## Docker Setup and Deployment
 
