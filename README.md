@@ -96,6 +96,7 @@ Make sure to:
 
 Required AWS permissions:
 
+   ```bash
    Lambda full access
    
    Bedrock full access
@@ -103,6 +104,7 @@ Required AWS permissions:
    API Gateway access
    
    ECR access (for Docker deployment)
+```
 
 ## Docker Setup and Deployment
 
